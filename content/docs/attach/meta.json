@@ -2,36 +2,10 @@
   "title": "Attach Router",
   "pages": [
     "index",
-    {
-      "title": "Upgrade Cases",
-      "pages": [
-        "upgrade-cases/free-to-paid",
-        "upgrade-cases/pro-to-premium",
-        "upgrade-cases/multi-interval-upgrades",
-        "upgrade-cases/trial-upgrades"
-      ]
-    },
-    {
-      "title": "Downgrade Cases",
-      "pages": [
-        "downgrade-cases/premium-to-pro",
-        "downgrade-cases/paid-to-free"
-      ]
-    },
-    {
-      "title": "Multi-Product",
-      "pages": [
-        "multi-product/multi-product-flows",
-        "multi-product/entity-management",
-        "multi-product/multi-attach"
-      ]
-    },
-    {
-      "title": "Special Cases",
-      "pages": [
-        "special-cases/one-time-addons",
-        "special-cases/recurring-addons"
-      ]
-    }
+    "flow-diagram",
+    "upgrade-cases",
+    "downgrade-cases",
+    "multi-product",
+    "special-cases"
   ]
 }
