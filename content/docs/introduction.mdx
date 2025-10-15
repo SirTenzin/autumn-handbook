@@ -1,0 +1,244 @@
+---
+title: Introduction to Autumn
+description: Complete billing infrastructure for modern SaaS applications
+---
+
+# What is Autumn?
+
+Autumn is the open-source billing infrastructure layer that sits between Stripe and your application. It handles all the complexity of modern SaaS billing so you can focus on building your product, not reinventing billing logic.
+
+Think of Autumn as your billing backend - it manages subscriptions, usage tracking, entitlements, upgrades, downgrades, and everything in between, all through simple API calls.
+
+## Why Autumn?
+
+### The Problem with Traditional Billing
+
+Building billing infrastructure is deceptively complex. What starts as "just integrate Stripe" quickly becomes:
+- Managing webhook handlers for dozens of payment events
+- Building permission systems tied to subscriptions
+- Tracking usage and enforcing limits
+- Handling upgrades, downgrades, and prorations
+- Creating internal dashboards for customer management
+- Dealing with edge cases like failed payments and retry logic
+
+Most companies end up building a tangled mess of billing code spread across their codebase, making it nearly impossible to change pricing without extensive engineering work.
+
+### The Autumn Solution
+
+Autumn provides a complete billing solution through just three simple API calls:
+- **Attach** - Handle any purchase flow (new subscriptions, upgrades, downgrades)
+- **Check** - Verify access and usage limits in real-time
+- **Track** - Record usage events for metered features
+
+Your entire billing logic lives in Autumn, completely decoupled from your application code. Change your pricing anytime without touching your codebase.
+
+## Core Capabilities
+
+### Flexible Pricing Models
+
+Autumn supports any pricing model you can imagine:
+
+- **Subscriptions** - Monthly or annual recurring billing
+- **Usage-Based** - Pay for what you use with real-time limits
+- **Credit Systems** - Pre-purchase credits that features draw from
+- **Seat-Based** - Bill per user with per-seat feature limits
+- **Pay Upfront** - Purchase fixed quantities consumed over time
+- **Hybrid Models** - Combine any of the above
+
+### Real-Time Entitlements
+
+Know instantly what each customer can access:
+- Check feature availability before granting access
+- Enforce usage limits in real-time
+- Prevent overage or automatically charge for excess usage
+- Support complex rules like "10 AI generations per seat per month"
+
+### Complete Customer Management
+
+A full-featured dashboard for your team:
+- View and manage all customer subscriptions
+- Handle refunds and credits
+- Create custom plans for enterprise customers
+- Track usage and billing analytics
+- Export data for reporting
+
+### Developer-First Design
+
+Built by developers, for developers:
+- Simple REST APIs with TypeScript SDKs
+- Comprehensive webhook events
+- Sandbox environment for testing
+- Docker Compose for local development
+- Open-source with self-hosting options
+
+## How It Works
+
+### 1. Define Your Products
+
+Create products and plans in the Autumn dashboard:
+```javascript
+// Example: SaaS with Pro and Enterprise tiers
+{
+  "product": "Your SaaS",
+  "plans": [
+    {
+      "name": "Pro",
+      "price": 29,
+      "features": {
+        "api_calls": 10000,
+        "team_members": 5
+      }
+    },
+    {
+      "name": "Enterprise",
+      "price": 299,
+      "features": {
+        "api_calls": "unlimited",
+        "team_members": "unlimited"
+      }
+    }
+  ]
+}
+```
+
+### 2. Integrate the APIs
+
+Add Autumn to your application with three simple functions:
+
+```javascript
+// Purchase flow - returns Stripe Checkout URL
+const checkoutUrl = await autumn.attach({
+  customerId: "user_123",
+  productId: "pro_plan"
+});
+
+// Access control - check before allowing access
+const canAccess = await autumn.check({
+  customerId: "user_123",
+  feature: "api_calls"
+});
+
+// Usage tracking - record consumption
+await autumn.track({
+  customerId: "user_123",
+  feature: "api_calls",
+  quantity: 1
+});
+```
+
+### 3. Let Autumn Handle the Rest
+
+Autumn automatically manages:
+- Stripe webhook processing
+- Subscription lifecycle (trials, renewals, cancellations)
+- Payment failures and retry logic
+- Proration calculations
+- Usage reset cycles
+- Invoice generation
+- Email notifications
+
+## Key Features
+
+### For Product Teams
+
+- **Experiment Freely** - Test new pricing without code changes
+- **Custom Plans** - Create one-off deals for enterprise customers
+- **Usage Analytics** - Understand how customers use your product
+- **Flexible Billing** - Support any business model
+
+### For Engineering Teams
+
+- **Simple Integration** - Three API calls replace months of work
+- **Reliable Infrastructure** - Built on PostgreSQL, Redis, and battle-tested tools
+- **Type Safety** - Full TypeScript support with generated types
+- **Self-Hosting** - Deploy on your infrastructure for complete control
+
+### For Customer Success
+
+- **Customer Portal** - Let customers self-serve subscription changes
+- **Usage Visibility** - See exactly what customers are using
+- **Billing History** - Complete audit trail of all transactions
+- **Manual Adjustments** - Issue credits and handle edge cases
+
+## Architecture Overview
+
+Autumn consists of three main components:
+
+1. **API Server** - Handles all billing logic and Stripe integration
+2. **Dashboard** - Web interface for managing products and customers
+3. **Database** - Stores products, customers, and usage data
+
+The system integrates with:
+- **Stripe** - Payment processing and subscription management
+- **Your Application** - Through REST APIs or SDKs
+- **Analytics Tools** - Export data to your data warehouse
+- **Email Providers** - Send billing-related notifications
+
+## Getting Started
+
+### Cloud Version (Recommended)
+
+1. Sign up at [app.useautumn.com](https://app.useautumn.com)
+2. Connect your Stripe account
+3. Create your first product
+4. Integrate the APIs into your application
+
+### Self-Hosted Version
+
+1. Clone the repository
+2. Run `docker-compose up` to start all services
+3. Configure your Stripe keys
+4. Access the dashboard at `localhost:3000`
+
+## Use Cases
+
+### SaaS Applications
+Implement complex subscription tiers with usage limits, overages, and add-ons.
+
+### API Services
+Track API calls per customer with automatic billing for overages.
+
+### AI Applications
+Manage token/credit consumption with real-time limits and top-ups.
+
+### Marketplaces
+Handle split payments, vendor payouts, and platform fees.
+
+### Enterprise Software
+Create custom plans with negotiated pricing and contract terms.
+
+## Next Steps
+
+<Cards>
+  <Card
+    title="Quick Start Guide"
+    description="Get Autumn running in 5 minutes"
+    href="/docs/quickstart"
+  />
+  <Card
+    title="API Reference"
+    description="Complete API documentation"
+    href="/docs/api"
+  />
+  <Card
+    title="Pricing Models"
+    description="Examples of different billing strategies"
+    href="/docs/pricing-models"
+  />
+  <Card
+    title="Self-Hosting"
+    description="Deploy Autumn on your infrastructure"
+    href="/docs/self-hosting"
+  />
+</Cards>
+
+## Support
+
+- **Documentation**: [docs.useautumn.com](https://docs.useautumn.com)
+- **GitHub**: [github.com/autumn-billing/autumn](https://github.com/autumn-billing/autumn)
+- **Discord**: Join our community for support and updates
+- **Email**: support@useautumn.com
+
+---
+
+*Autumn is backed by Y Combinator and used by companies processing millions in revenue. It's the billing infrastructure you wish you had from day one.*
